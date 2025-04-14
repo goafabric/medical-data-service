@@ -29,7 +29,8 @@ public class DemoDataImporter implements CommandLineRunner {
         var patients = createPatients().stream()
                 .map(patientLogic::save)
                 .toList();
-                
+
+
         patients.forEach(patient -> 
             createMedicalRecords(patient.id()).forEach(medicalRecordLogic::save));
     }
