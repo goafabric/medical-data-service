@@ -20,7 +20,7 @@ public class PatientController {
         return logic.getById(id);
     }
 
-    @GetMapping("/")
+    @GetMapping
     public List<Patient> findAll(@RequestParam("page") int page, @RequestParam("size") int size) {
         return logic.findAll(page, size);
     }

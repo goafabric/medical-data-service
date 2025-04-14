@@ -11,4 +11,8 @@ public record Patient(
     String gender,
     LocalDate birthDate
 
-) {}
+) {
+    public Patient(String givenName, String familyName, String gender, LocalDate birthDate) {
+        this(null, null, givenName, familyName, gender, birthDate);
+    }
+}
