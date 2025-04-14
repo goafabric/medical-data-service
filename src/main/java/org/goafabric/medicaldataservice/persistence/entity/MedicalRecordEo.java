@@ -2,7 +2,9 @@ package org.goafabric.medicaldataservice.persistence.entity;
 
 import jakarta.persistence.*;
 
-
+/**
+ * Entity representing a medical record.
+ */
 @Entity
 @Table(name="medical_record")
 public class MedicalRecordEo {
@@ -12,6 +14,9 @@ public class MedicalRecordEo {
 
     @Column(name = "encounter_id")
     private String encounterId;
+
+    @Column(name = "patient_id")
+    private String patientId;
 
     private String type;
 
@@ -25,9 +30,10 @@ public class MedicalRecordEo {
     private Long version;
 
     private MedicalRecordEo() {}
-    public MedicalRecordEo(String id, String encounterId, String type, String display, String code, String specialization, Long version) {
+    public MedicalRecordEo(String id, String encounterId, String patientId, String type, String display, String code, String specialization, Long version) {
         this.id = id;
         this.encounterId = encounterId;
+        this.patientId = patientId;
         this.type = type;
         this.display = display;
         this.code = code;
@@ -41,6 +47,10 @@ public class MedicalRecordEo {
 
     public String getEncounterId() {
         return encounterId;
+    }
+
+    public String getPatientId() {
+        return patientId;
     }
 
     public String getType() {

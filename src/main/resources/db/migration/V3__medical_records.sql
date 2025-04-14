@@ -22,6 +22,7 @@ create table medical_record
 			primary key,
 
     encounter_id varchar(36),
+    patient_id varchar(36),
 
     type varchar(255) not null,
 	display varchar(255),

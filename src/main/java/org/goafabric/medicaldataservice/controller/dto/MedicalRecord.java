@@ -2,19 +2,16 @@ package org.goafabric.medicaldataservice.controller.dto;
 
 public record MedicalRecord (
         String id,
-        String encounterId,
         Long version,
+        String patientId,
+        String encounterId,
         MedicalRecordType type,
         String display,
-        String code,
-        String specialization) {
-    public MedicalRecord(MedicalRecordType type, String display, String code) {
-        this(null, null, null, type, display, code, null);
+        String code) {
+    public MedicalRecord(String patientId, String encounterId, MedicalRecordType type, String display, String code) {
+        this(null, null, encounterId, patientId, type, display, code);
     }
 
-    public MedicalRecord(MedicalRecordType type, String display, String code, String specialization) {
-        this(null, null, null, type, display, code, specialization);
-    }
 }
 
 
