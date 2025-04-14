@@ -2,7 +2,7 @@ package org.goafabric.medicaldataservice.controller.dto;
 
 public enum MedicalRecordType {
 
-    ANAMNESIS("ANAMNESIS"),
+    OBSERVATION("OBSERVATION"),
     CONDITION("CONDITION"),
     CHARGEITEM("CHARGE"),
     FINDING("FINDING"),
