@@ -26,8 +26,12 @@ public class DemoDataImporter implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        createPatients().forEach(patientLogic::save);
-        createMedicalRecords().forEach(medicalRecordLogic::save);
+        var patients = createPatients().stream()
+                .map(patientLogic::save)
+                .toList();
+                
+        patients.forEach(patient -> 
+            createMedicalRecords(patient.id()).forEach(medicalRecordLogic::save));
     }
 
     private List<Patient> createPatients() {
@@ -40,8 +44,7 @@ public class DemoDataImporter implements CommandLineRunner {
         );
     }
 
-    private List<MedicalRecord> createMedicalRecords() {
-        var patientId = "1";
+    private List<MedicalRecord> createMedicalRecords(String patientId) {
         var encounterId = "1";
         return List.of(
             new MedicalRecord(patientId, encounterId, MedicalRecordType.CONDITION, "Type 2 Diabetes", "E11"),
