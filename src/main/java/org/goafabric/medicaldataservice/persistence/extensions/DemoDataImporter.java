@@ -48,15 +48,17 @@ public class DemoDataImporter implements CommandLineRunner {
     private List<MedicalRecord> createMedicalRecords(String patientId) {
         var encounterId = "1";
         return List.of(
-            new MedicalRecord(patientId, encounterId, MedicalRecordType.CONDITION, "Type 2 Diabetes", "E11"),
-            new MedicalRecord(patientId, encounterId, MedicalRecordType.CONDITION, "Hypertension", "I10"),
-            new MedicalRecord(patientId, encounterId, MedicalRecordType.CONDITION, "Asthma", "J45"),
-            new MedicalRecord(patientId, encounterId, MedicalRecordType.CONDITION, "Migraine", "G43"),
+                new MedicalRecord(patientId, encounterId, MedicalRecordType.CONDITION, "Type 2 Diabetes", "E11"),
+                new MedicalRecord(patientId, encounterId, MedicalRecordType.OBSERVATION, "Patient seems to eat to much", "E11"),
 
-            new MedicalRecord(patientId, encounterId, MedicalRecordType.OBSERVATION, "Patient seems to eat to much", "E11"),
-            new MedicalRecord(patientId, encounterId, MedicalRecordType.OBSERVATION, "Patient complains about dizziness and neck pain", "I10"),
-            new MedicalRecord(patientId, encounterId, MedicalRecordType.OBSERVATION, "Patient experiences shortness of breath during exercise", "J45"),
-            new MedicalRecord(patientId, encounterId, MedicalRecordType.OBSERVATION, "Patient reports severe headache with sensitivity to light", "G43")
+                new MedicalRecord(patientId, encounterId, MedicalRecordType.CONDITION, "Hypertension", "I10"),
+                new MedicalRecord(patientId, encounterId, MedicalRecordType.OBSERVATION, "Patient complains about dizziness and neck pain", "I10"),
+
+                new MedicalRecord(patientId, encounterId, MedicalRecordType.CONDITION, "Asthma", "J45"),
+                new MedicalRecord(patientId, encounterId, MedicalRecordType.OBSERVATION, "Patient experiences shortness of breath during exercise", "J45"),
+
+                new MedicalRecord(patientId, encounterId, MedicalRecordType.CONDITION, "Migraine", "G43"),
+                new MedicalRecord(patientId, encounterId, MedicalRecordType.OBSERVATION, "Patient reports severe headache with sensitivity to light", "G43")
         );
     }
 }
