@@ -1,15 +1,15 @@
 package org.goafabric.medicaldataservice.service.persistence.entity;
 
 import jakarta.persistence.*;
-import org.goafabric.medicaldataservice.service.persistence.extensions.KafkaListener;
+import org.goafabric.medicaldataservice.service.persistence.extensions.PatientAwareEventListener;
 
 /**
  * Entity representing a medical record.
  */
 @Entity
 @Table(name="medical_record")
-@EntityListeners(KafkaListener.class)
-public class MedicalRecordEo {
+@EntityListeners(PatientAwareEventListener.class)
+public class MedicalRecordEo implements PatientAware {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;

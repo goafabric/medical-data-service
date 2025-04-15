@@ -3,15 +3,15 @@ package org.goafabric.medicaldataservice.service.persistence.extensions;
 import jakarta.persistence.PostPersist;
 import jakarta.persistence.PostRemove;
 import jakarta.persistence.PostUpdate;
-import org.goafabric.medicaldataservice.service.persistence.entity.MedicalRecordEo;
-import org.goafabric.medicaldataservice.service.persistence.entity.PatientEo;
+import org.goafabric.medicaldataservice.producer.EventProducer;
+import org.goafabric.medicaldataservice.service.persistence.entity.PatientAware;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 
-public class KafkaListener implements ApplicationContextAware {
+public class PatientAwareEventListener implements ApplicationContextAware {
     private static ApplicationContext context;
 
     private final Logger log = LoggerFactory.getLogger(this.getClass());
@@ -25,22 +25,22 @@ public class KafkaListener implements ApplicationContextAware {
     }
 
     @PostPersist
-    public void afterCreate(Object object)  {
-        switch (object) {
-            case PatientEo patient -> log.info("Patient {} has been created", patient.getId());
-            case MedicalRecordEo record -> log.info("Medical Record {} has been created", record.getPatientId());
-            default -> {}
-        }
-        //insertAudit(DbOperation.CREATE,  getId(object), null, object);
+    public void afterCreate(PatientAware patientAware)  {
+        produce(patientAware, DbOperation.CREATE);
     }
 
     @PostUpdate
-    public void afterUpdate(Object object) {
-
+    public void afterUpdate(PatientAware patientAware) {
+        produce(patientAware, DbOperation.UPDATE);
     }
 
     @PostRemove
-    public void afterDelete(Object object) {
-        //insertAudit(DbOperation.DELETE, getId(object), object, null);
+    public void afterDelete(PatientAware patientAware) {
+        produce(patientAware, DbOperation.DELETE);
+    }
+
+    public void produce(PatientAware patientAware, DbOperation operation) {
+        log.info("Object {} with patientId {} has been changed", patientAware.getClass().getSimpleName(), patientAware.getPatientId());
+        context.getBean(EventProducer.class).produce("PATIENT", patientAware.getPatientId());
     }
 }

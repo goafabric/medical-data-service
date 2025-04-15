@@ -1,15 +1,15 @@
 package org.goafabric.medicaldataservice.service.persistence.entity;
 
 import jakarta.persistence.*;
-import org.goafabric.medicaldataservice.service.persistence.extensions.KafkaListener;
+import org.goafabric.medicaldataservice.service.persistence.extensions.PatientAwareEventListener;
 import org.hibernate.annotations.TenantId;
 
 import java.time.LocalDate;
 
 @Entity
 @Table(name = "patient")
-@EntityListeners(KafkaListener.class)
-public class PatientEo {
+@EntityListeners(PatientAwareEventListener.class)
+public class PatientEo implements PatientAware {
     @Id
     @org.springframework.data.annotation.Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -66,5 +66,10 @@ public class PatientEo {
 
     public Long getVersion() {
         return version;
+    }
+
+    @Override
+    public String getPatientId() {
+        return id;
     }
 }

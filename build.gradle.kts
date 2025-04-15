@@ -69,6 +69,11 @@ dependencies {
 	implementation("org.mapstruct:mapstruct")
 	annotationProcessor("org.mapstruct:mapstruct-processor")
 
+	//messageing
+	implementation("org.springframework.boot:spring-boot-starter-websocket")
+	implementation("org.springframework.kafka:spring-kafka")
+
+
 	//test
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 
