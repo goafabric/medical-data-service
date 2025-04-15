@@ -5,8 +5,7 @@
 - Failed to convert Medical Record find method to findBy Example with PatientId (2 Times)
 - Failed to fix Classcast for Kafka Payload (at least had an idea how to fix it)
 
-
 # Success
-- Context Completion (most of the time)
+- Typing Completion (most of the time)
 - Generating programatic Demo Data
 - Simple enhanced switch for KafkaListener
