@@ -1,12 +1,14 @@
 package org.goafabric.medicaldataservice.service.persistence.entity;
 
 import jakarta.persistence.*;
+import org.goafabric.medicaldataservice.service.persistence.extensions.KafkaListener;
 
 /**
  * Entity representing a medical record.
  */
 @Entity
 @Table(name="medical_record")
+@EntityListeners(KafkaListener.class)
 public class MedicalRecordEo {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)

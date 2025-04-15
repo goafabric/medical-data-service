@@ -1,12 +1,14 @@
 package org.goafabric.medicaldataservice.service.persistence.entity;
 
 import jakarta.persistence.*;
+import org.goafabric.medicaldataservice.service.persistence.extensions.KafkaListener;
 import org.hibernate.annotations.TenantId;
 
 import java.time.LocalDate;
 
 @Entity
 @Table(name = "patient")
+@EntityListeners(KafkaListener.class)
 public class PatientEo {
     @Id
     @org.springframework.data.annotation.Id
