@@ -1,6 +1,7 @@
 package org.goafabric.medicaldataservice.consumer;
 
-import org.goafabric.medicaldataservice.service.persistence.entity.PatientAware;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.goafabric.medicaldataservice.service.persistence.entity.PatientEo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.kafka.annotation.KafkaListener;
@@ -15,7 +16,14 @@ public class PatientConsumer {
     @KafkaListener(groupId = CONSUMER_NAME, topics = {"patient"}) //only topics listed here will be autocreated
     public void processKafka(EventData eventData) {
         //withTenantInfos(() -> process(topic, eventData));
-        var patientAware = (PatientAware) eventData.payload();
-        log.info("Received message from topic patient {}", patientAware.getClass().getSimpleName());
+
+        if (eventData.type().equals("PatientEo")) {
+            var patient = getPayLoad(eventData, PatientEo.class);
+            log.info("Received message from type patient {}", patient);
+        }
+    }
+
+    private <T> T getPayLoad(EventData eventData, Class<T> clazz) {
+        return new ObjectMapper().convertValue(eventData.payload(), clazz);
     }
 }

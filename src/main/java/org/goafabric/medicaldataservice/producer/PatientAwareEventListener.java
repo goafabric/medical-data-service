@@ -43,6 +43,7 @@ public class PatientAwareEventListener implements ApplicationContextAware {
     public void produce(PatientAware patientAware, DbOperation operation) {
         //log.info("Object {} with patientId {} has been changed", patientAware.getClass().getSimpleName(), patientAware.getPatientId());
         context.getBean(EventProducer.class).produce("patient", patientAware.getPatientId(),
-                new EventData(TenantContext.getAdapterHeaderMap(), patientAware.getId(), operation.toString(), patientAware));
+                new EventData(patientAware.getClass().getSimpleName(), patientAware.getId(), operation.toString(), patientAware,
+                        TenantContext.getAdapterHeaderMap()));
     }
 }

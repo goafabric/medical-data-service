@@ -6,10 +6,11 @@ import org.goafabric.medicaldataservice.service.extensions.TenantContext;
 import java.util.Map;
 
 public record EventData(
-    Map<String, String> tenantInfos,
+    String type,
     String referenceId,
     String operation,
-    Object payload
+    Object payload,
+    Map<String, String> tenantInfos
 ) {
     public EventData {
         TenantContext.setContext(tenantInfos); //little hacky, if the object is created on deserialization the tenantcontext will be set
