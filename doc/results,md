@@ -1,0 +1,7 @@
+Fail
+- Often crashes Intellij, especially when opening new projects
+- Failed to generate Layers for Controller, Logic, Persistence for Entity B from Entity A
+
+Success
+- Generating Demo Data
+- Context Completion (most of the time)
