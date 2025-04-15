@@ -1,4 +1,4 @@
-package org.goafabric.medicaldataservice.extensions;
+package org.goafabric.medicaldataservice.service.extensions;
 
 import jakarta.validation.ConstraintViolationException;
 import org.slf4j.Logger;

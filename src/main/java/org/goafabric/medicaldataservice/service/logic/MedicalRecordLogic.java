@@ -1,9 +1,9 @@
-package org.goafabric.medicaldataservice.logic;
+package org.goafabric.medicaldataservice.service.logic;
 
 import jakarta.transaction.Transactional;
-import org.goafabric.medicaldataservice.controller.dto.MedicalRecord;
-import org.goafabric.medicaldataservice.logic.mapper.MedicalRecordMapper;
-import org.goafabric.medicaldataservice.persistence.repository.MedicalRecordRepository;
+import org.goafabric.medicaldataservice.service.controller.dto.MedicalRecord;
+import org.goafabric.medicaldataservice.service.logic.mapper.MedicalRecordMapper;
+import org.goafabric.medicaldataservice.service.persistence.repository.MedicalRecordRepository;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.PathVariable;

@@ -1,7 +1,7 @@
-package org.goafabric.medicaldataservice.controller;
+package org.goafabric.medicaldataservice.service.controller;
 
-import org.goafabric.medicaldataservice.controller.dto.Patient;
-import org.goafabric.medicaldataservice.logic.PatientLogic;
+import org.goafabric.medicaldataservice.service.controller.dto.Patient;
+import org.goafabric.medicaldataservice.service.logic.PatientLogic;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

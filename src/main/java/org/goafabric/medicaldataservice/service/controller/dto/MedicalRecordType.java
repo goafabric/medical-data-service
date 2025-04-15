@@ -1,4 +1,4 @@
-package org.goafabric.medicaldataservice.controller.dto;
+package org.goafabric.medicaldataservice.service.controller.dto;
 
 public enum MedicalRecordType {
 

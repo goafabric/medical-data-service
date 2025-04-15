@@ -1,7 +1,7 @@
-package org.goafabric.medicaldataservice.logic.mapper;
+package org.goafabric.medicaldataservice.service.logic.mapper;
 
-import org.goafabric.medicaldataservice.controller.dto.Patient;
-import org.goafabric.medicaldataservice.persistence.entity.PatientEo;
+import org.goafabric.medicaldataservice.service.controller.dto.Patient;
+import org.goafabric.medicaldataservice.service.persistence.entity.PatientEo;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 import org.springframework.data.domain.Page;

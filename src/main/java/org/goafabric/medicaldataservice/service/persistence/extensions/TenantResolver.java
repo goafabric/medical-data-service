@@ -1,7 +1,7 @@
-package org.goafabric.medicaldataservice.persistence.extensions;
+package org.goafabric.medicaldataservice.service.persistence.extensions;
 
 import org.flywaydb.core.Flyway;
-import org.goafabric.medicaldataservice.extensions.TenantContext;
+import org.goafabric.medicaldataservice.service.extensions.TenantContext;
 import org.hibernate.cfg.AvailableSettings;
 import org.hibernate.context.spi.CurrentTenantIdentifierResolver;
 import org.hibernate.engine.jdbc.connections.spi.MultiTenantConnectionProvider;

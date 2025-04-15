@@ -1,4 +1,4 @@
-package org.goafabric.medicaldataservice.extensions;
+package org.goafabric.medicaldataservice.service.extensions;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;

@@ -1,4 +1,4 @@
-package org.goafabric.medicaldataservice.extensions;
+package org.goafabric.medicaldataservice.service.extensions;
 
 import io.micrometer.common.KeyValue;
 import jakarta.servlet.http.HttpServletRequest;

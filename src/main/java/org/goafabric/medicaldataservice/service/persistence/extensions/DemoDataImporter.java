@@ -1,11 +1,11 @@
-package org.goafabric.medicaldataservice.persistence.extensions;
+package org.goafabric.medicaldataservice.service.persistence.extensions;
 
 import jakarta.transaction.Transactional;
-import org.goafabric.medicaldataservice.controller.dto.MedicalRecord;
-import org.goafabric.medicaldataservice.controller.dto.MedicalRecordType;
-import org.goafabric.medicaldataservice.controller.dto.Patient;
-import org.goafabric.medicaldataservice.logic.MedicalRecordLogic;
-import org.goafabric.medicaldataservice.logic.PatientLogic;
+import org.goafabric.medicaldataservice.service.controller.dto.MedicalRecord;
+import org.goafabric.medicaldataservice.service.controller.dto.MedicalRecordType;
+import org.goafabric.medicaldataservice.service.controller.dto.Patient;
+import org.goafabric.medicaldataservice.service.logic.MedicalRecordLogic;
+import org.goafabric.medicaldataservice.service.logic.PatientLogic;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
