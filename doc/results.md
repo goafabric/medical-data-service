@@ -1,5 +1,5 @@
 # Fail
-- Creating a new Project from Scratch with latest Spring boot Version (due to training data cut off)
+- Creating a new Project from Scratch with latest Spring boot Version (due to training data cut off, providing doc increases spring boot version, but forgets transient dependency)
 - Often crashes Intellij, especially when opening new projects
 - Failed to generate Layers for Controller, Logic, Persistence for Entity B from Entity A
 - Failed to convert Medical Record find method to findBy Example with PatientId (2 Times)
