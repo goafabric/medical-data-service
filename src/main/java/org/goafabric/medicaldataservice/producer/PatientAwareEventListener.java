@@ -1,9 +1,10 @@
-package org.goafabric.medicaldataservice.service.persistence.extensions;
+package org.goafabric.medicaldataservice.producer;
 
 import jakarta.persistence.PostPersist;
 import jakarta.persistence.PostRemove;
 import jakarta.persistence.PostUpdate;
-import org.goafabric.medicaldataservice.producer.EventProducer;
+import org.goafabric.medicaldataservice.consumer.EventData;
+import org.goafabric.medicaldataservice.service.extensions.TenantContext;
 import org.goafabric.medicaldataservice.service.persistence.entity.PatientAware;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,7 +41,8 @@ public class PatientAwareEventListener implements ApplicationContextAware {
     }
 
     public void produce(PatientAware patientAware, DbOperation operation) {
-        log.info("Object {} with patientId {} has been changed", patientAware.getClass().getSimpleName(), patientAware.getPatientId());
-        context.getBean(EventProducer.class).produce("PATIENT", patientAware.getPatientId());
+        //log.info("Object {} with patientId {} has been changed", patientAware.getClass().getSimpleName(), patientAware.getPatientId());
+        context.getBean(EventProducer.class).produce("patient", patientAware.getPatientId(),
+                new EventData(TenantContext.getAdapterHeaderMap(), patientAware.getId(), operation.toString(), patientAware));
     }
 }

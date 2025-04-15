@@ -8,6 +8,11 @@ import java.util.Base64;
 import java.util.Map;
 
 public class TenantContext {
+    public static void setContext(Map<String, String> tenantHeaderMap) {
+        setContext(tenantHeaderMap.get("X-TenantId"), tenantHeaderMap.get("X-OrganizationId"),
+                tenantHeaderMap.get("X-Auth-Request-Preferred-Username"), tenantHeaderMap.get("X-UserInfo"));
+    }
+
     record TenantContextRecord(String tenantId, String organizationId, String userName) {
         public Map<String, String> toAdapterHeaderMap() {
             return Map.of("X-TenantId", tenantId, "X-OrganizationId", organizationId, "X-Auth-Request-Preferred-Username", userName);

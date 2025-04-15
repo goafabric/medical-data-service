@@ -1,7 +1,7 @@
 package org.goafabric.medicaldataservice.service.persistence.entity;
 
 import jakarta.persistence.*;
-import org.goafabric.medicaldataservice.service.persistence.extensions.PatientAwareEventListener;
+import org.goafabric.medicaldataservice.producer.PatientAwareEventListener;
 
 /**
  * Entity representing a medical record.
