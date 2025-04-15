@@ -1,5 +1,6 @@
 package org.goafabric.medicaldataservice.service.persistence.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import org.goafabric.medicaldataservice.producer.PatientAwareEventListener;
 import org.hibernate.annotations.TenantId;
@@ -69,6 +70,7 @@ public class PatientEo implements PatientAware {
     }
 
     @Override
+    @JsonIgnore
     public String getPatientId() {
         return id;
     }

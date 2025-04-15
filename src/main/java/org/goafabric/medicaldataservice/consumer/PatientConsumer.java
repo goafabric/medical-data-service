@@ -1,6 +1,8 @@
 package org.goafabric.medicaldataservice.consumer;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import org.goafabric.medicaldataservice.service.persistence.entity.MedicalRecordEo;
 import org.goafabric.medicaldataservice.service.persistence.entity.PatientEo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,11 +21,18 @@ public class PatientConsumer {
 
         if (eventData.type().equals("PatientEo")) {
             var patient = getPayLoad(eventData, PatientEo.class);
-            log.info("Received message from type patient {}", patient);
+            log.info("Received message from type patient {}", patient.getGivenName());
+        }
+
+        if (eventData.type().equals("MedicalRecordEo")) {
+            var medicalRecord = getPayLoad(eventData, MedicalRecordEo.class);
+            log.info("Received message from type records {}", medicalRecord.getDisplay());
         }
     }
 
     private <T> T getPayLoad(EventData eventData, Class<T> clazz) {
-        return new ObjectMapper().convertValue(eventData.payload(), clazz);
+        var objectMapper = new ObjectMapper();
+        objectMapper.registerModule(new JavaTimeModule());
+        return objectMapper.convertValue(eventData.payload(), clazz);
     }
 }
