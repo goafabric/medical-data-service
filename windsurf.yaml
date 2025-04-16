@@ -1,0 +1,31 @@
+rules:
+  - name: enforce-declarative-restclient
+    description: >
+      Always use the Declarative REST Client from Spring Boot in both main and test sources.
+      This means defining interfaces annotated with @RestClient and method mappings.
+      Disallow usage of RestTemplate, WebClient, OpenFeign, or imperative RestClient usage.
+    match:
+      - '**/src/main/java/**/*.java'
+      - '**/src/test/java/**/*.java'
+    requires:
+      any:
+        - annotation: '@org.springframework.boot.rest.client.RestClient'
+    forbids:
+      - import: 'org.springframework.web.client.RestTemplate'
+      - import: 'org.springframework.boot.test.web.client.TestRestTemplate'
+      - import: 'org.springframework.web.reactive.function.client.WebClient'
+      - import: 'org.springframework.cloud.openfeign.FeignClient'
+      - annotation: '@org.springframework.cloud.openfeign.FeignClient'
+      - usage: 'RestClient\s+\w+\s*=\s*.*'
+      - usage: '\.build\(\s*\)'
+
+  - name: no-responseentity-in-controller
+    description: >
+      Disallow use of ResponseEntity in Spring Web controllers. 
+      Encourage returning real objects (e.g., DTOs, records, domain models).
+    match:
+      - '**/src/main/java/**/*.java'
+      - '**/src/test/java/**/*.java'
+    forbids:
+      - import: 'org.springframework.http.ResponseEntity'
+      - usage: 'ResponseEntity<.*>'
