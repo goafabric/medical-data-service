@@ -15,7 +15,7 @@ public class PatientConsumer {
 
     private static final String CONSUMER_NAME = "PatientConsumer";
 
-    @KafkaListener(groupId = CONSUMER_NAME, topics = {"patient"}) //only topics listed here will be autocreated
+    @KafkaListener(groupId = CONSUMER_NAME, topics = {"patient"}) //only topics listed here will be autocreated, for production TOPICS should be created via Terraform
     public void processKafka(EventData eventData) {
         //withTenantInfos(() -> process(topic, eventData));
 
