@@ -74,6 +74,10 @@ dependencies {
 	implementation("org.springframework.kafka:spring-kafka")
 	implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310")
 
+	//mongodb + elastic
+	implementation("org.springframework.boot:spring-boot-starter-data-mongodb")
+	implementation("org.springframework.boot:spring-boot-starter-data-elasticsearch")
+
 
 	//test
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
