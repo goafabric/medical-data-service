@@ -2,8 +2,9 @@ package org.goafabric.medicaldataservice.consumer;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import org.goafabric.medicaldataservice.service.persistence.entity.MedicalRecordEo;
-import org.goafabric.medicaldataservice.service.persistence.entity.PatientEo;
+import org.goafabric.medicaldataservice.fhir.Condition;
+import org.goafabric.medicaldataservice.fhir.Observation;
+import org.goafabric.medicaldataservice.fhir.Patient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.kafka.annotation.KafkaListener;
@@ -20,19 +21,20 @@ public class PatientConsumer {
         //withTenantInfos(() -> process(topic, eventData));
 
         if ("patient".equals(eventData.type())) {
-            var patient = getPayLoad(eventData, PatientEo.class);
-            log.info("Received message from type patient {}", patient.getGivenName());
-        }
-
-        if ("observation".equals(eventData.type())) {
-            var medicalRecord = getPayLoad(eventData, MedicalRecordEo.class);
-            log.info("Received message from type observation {}", medicalRecord.getCode());
+            var patient = getPayLoad(eventData, Patient.class);
+            log.info("Received message from type patient {}", patient.name().getFirst().family());
         }
 
         if ("condition".equals(eventData.type())) {
-            var medicalRecord = getPayLoad(eventData, MedicalRecordEo.class);
-            log.info("Received message from type condition {}", medicalRecord.getCode());
+            var condition = getPayLoad(eventData, Condition.class);
+            log.info("Received message from type condition {}", condition.coding().code());
         }
+
+        if ("observation".equals(eventData.type())) {
+            var observation = getPayLoad(eventData, Observation.class);
+            log.info("Received message from type observation {}", observation.coding().code());
+        }
+
     }
 
     private <T> T getPayLoad(EventData eventData, Class<T> clazz) {

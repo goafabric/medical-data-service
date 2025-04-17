@@ -4,8 +4,8 @@ import jakarta.persistence.PostPersist;
 import jakarta.persistence.PostRemove;
 import jakarta.persistence.PostUpdate;
 import org.goafabric.medicaldataservice.consumer.EventData;
+import org.goafabric.medicaldataservice.fhir.SimpleFhirMapper;
 import org.goafabric.medicaldataservice.service.extensions.TenantContext;
-import org.goafabric.medicaldataservice.service.persistence.entity.MedicalRecordEo;
 import org.goafabric.medicaldataservice.service.persistence.entity.PatientAware;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,23 +42,11 @@ public class PatientAwareEventListener implements ApplicationContextAware {
     }
 
     public void produce(PatientAware patientAware, DbOperation operation) {
-        var eventData = new EventData(getTopic(patientAware), operation.toString(), patientAware, TenantContext.getAdapterHeaderMap());
-        context.getBean(EventProducer.class).produce("patient", patientAware.getPatientId(), eventData);
+        var payload = context.getBean(SimpleFhirMapper.class).map(patientAware);
+        var topic = payload.getClass().getSimpleName().toLowerCase();
+        context.getBean(EventProducer.class).produce("patient", patientAware.getPatientId(),
+                new EventData(topic, operation.toString(), payload, TenantContext.getAdapterHeaderMap()));
     }
 
-    private String getTopic(PatientAware patientAware) {
-        String className = patientAware.getClass().getSimpleName();
-        return switch (className) {
-            case "PatientEo" -> "patient";
-            case "MedicalRecordEo" -> {
-                String type = ((MedicalRecordEo) patientAware).getType();
-                yield switch (type) {
-                    case "OBSERVATION" -> "observation";
-                    case "CONDITION" -> "condition";
-                    default -> throw new IllegalArgumentException("Unknown MedicalRecordEo type: " + type);
-                };
-            }
-            default -> throw new IllegalArgumentException("Unknown PatientAware type: " + className);
-        };
-    }
+
 }
