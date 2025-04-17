@@ -58,9 +58,6 @@ public class PatientConsumer {
     }
 
     private void store(Object object) {
-        //if (mongoTemplate != null) { mongoTemplate.save(object); };
-        //if (elasticsearchTemplate!= null) { elasticsearchTemplate.save(object); };
-
         Optional.ofNullable(mongoTemplate).ifPresent(mongoTemplate -> mongoTemplate.save(object));
         Optional.ofNullable(elasticsearchTemplate).ifPresent(elasticsearchTemplate -> elasticsearchTemplate.save(object));
     }
