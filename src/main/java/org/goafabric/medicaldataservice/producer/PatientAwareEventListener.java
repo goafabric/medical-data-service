@@ -4,7 +4,7 @@ import jakarta.persistence.PostPersist;
 import jakarta.persistence.PostRemove;
 import jakarta.persistence.PostUpdate;
 import org.goafabric.medicaldataservice.consumer.EventData;
-import org.goafabric.medicaldataservice.fhir.SimpleFhirMapper;
+import org.goafabric.medicaldataservice.service.fhir.SimpleFhirMapper;
 import org.goafabric.medicaldataservice.service.extensions.TenantContext;
 import org.goafabric.medicaldataservice.service.persistence.entity.PatientAware;
 import org.slf4j.Logger;

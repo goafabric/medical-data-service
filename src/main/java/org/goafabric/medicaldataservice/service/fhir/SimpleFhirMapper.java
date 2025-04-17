@@ -1,4 +1,4 @@
-package org.goafabric.medicaldataservice.fhir;
+package org.goafabric.medicaldataservice.service.fhir;
 
 import org.goafabric.medicaldataservice.service.persistence.entity.MedicalRecordEo;
 import org.goafabric.medicaldataservice.service.persistence.entity.PatientAware;

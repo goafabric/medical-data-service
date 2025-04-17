@@ -1,4 +1,4 @@
-package org.goafabric.medicaldataservice.fhir;
+package org.goafabric.medicaldataservice.service.fhir;
 
 import java.util.List;
 
