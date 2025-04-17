@@ -19,14 +19,19 @@ public class PatientConsumer {
     public void processKafka(EventData eventData) {
         //withTenantInfos(() -> process(topic, eventData));
 
-        if (eventData.type().equals("PatientEo")) {
+        if ("patient".equals(eventData.type())) {
             var patient = getPayLoad(eventData, PatientEo.class);
             log.info("Received message from type patient {}", patient.getGivenName());
         }
 
-        if (eventData.type().equals("MedicalRecordEo")) {
+        if ("observation".equals(eventData.type())) {
             var medicalRecord = getPayLoad(eventData, MedicalRecordEo.class);
-            log.info("Received message from type records {}", medicalRecord.getDisplay());
+            log.info("Received message from type observation {}", medicalRecord.getCode());
+        }
+
+        if ("condition".equals(eventData.type())) {
+            var medicalRecord = getPayLoad(eventData, MedicalRecordEo.class);
+            log.info("Received message from type condition {}", medicalRecord.getCode());
         }
     }
 
