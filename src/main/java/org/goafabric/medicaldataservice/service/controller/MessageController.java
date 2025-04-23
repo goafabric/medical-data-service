@@ -29,7 +29,7 @@ public class MessageController {
 
     @MessageMapping("create-observation")
     public void createObservation() {
-        medicalRecordLogic.save(new MedicalRecord(UUID.randomUUID().toString(), "1", MedicalRecordType.CONDITION, "Hypertension", "I10"));
+        medicalRecordLogic.save(new MedicalRecord(UUID.randomUUID().toString(), "1", MedicalRecordType.OBSERVATION, "Hypertension", "I10"));
     }
 
 
