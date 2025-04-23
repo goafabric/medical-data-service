@@ -1,6 +1,6 @@
 #application
 server:
-  port: 50500
+  port: 50501
   tomcat.threads.max: 20
   forward-headers-strategy: FRAMEWORK
 

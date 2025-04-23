@@ -23,7 +23,7 @@ public class WebsocketRelayConsumer {
     }
 
 
-    @KafkaListener(groupId = CONSUMER_NAME, topics = {"patient"}, containerFactory = "latestKafkaListenerContainerFactory")
+    @KafkaListener(groupId = CONSUMER_NAME, topics = {"patient"}) //, containerFactory = "latestKafkaListenerContainerFactory")
     public void listen(@Header(KafkaHeaders.RECEIVED_TOPIC) String topic, EventData eventData) {
         log.info("inside relay consumer");
         msgTemplate.convertAndSend("/tenant/" + TenantContext.getTenantId(), new MySocketMessage(eventData.type() + " " + eventData.operation() + " for Tenant " + TenantContext.getTenantId()));
