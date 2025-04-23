@@ -4,8 +4,11 @@
     <meta charset="UTF-8">
     <title>Landing page</title>
     <link rel="stylesheet" href="css/bootstrap.min.css">
+    <script src="js/sockjs.min.js"></script>
+    <script src="js/stomp.min.js"></script>
+    <script src="js/app.js"></script>
 </head>
-<body>
+<body onload="connectSocket()">
     <div style="margin-left: 20px;">
         <h1>Person Service Spring</h1>
         <h2>Monitoring Links</h2>
@@ -18,7 +21,7 @@
         <h2>Person Service Links</h2>
         <ul>
             <li><a href="patients?page=0&size=5">findAll</a></li>
-            <li><a href="patients/create-patient">create patient</a></li>
+            <li>Create Patient<a href="patients/create-patient"> 🌐</a><a href="#" onclick="createPatient()"> 🔌</a></li>
         </ul>
        
     </div>
