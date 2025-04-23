@@ -8,6 +8,7 @@ import org.goafabric.medicaldataservice.service.fhir.Patient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.data.elasticsearch.client.elc.ElasticsearchTemplate;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.kafka.annotation.KafkaListener;
@@ -52,14 +53,19 @@ public class PatientConsumer {
     }
 
     private <T> T getPayLoad(EventData eventData, Class<T> clazz) {
-        var objectMapper = new ObjectMapper();
-        objectMapper.registerModule(new JavaTimeModule());
-        return objectMapper.convertValue(eventData.payload(), clazz);
+        return objectMapper().convertValue(eventData.payload(), clazz);
     }
 
     private void store(Object object) {
         Optional.ofNullable(mongoTemplate).ifPresent(mongoTemplate -> mongoTemplate.save(object));
         Optional.ofNullable(elasticsearchTemplate).ifPresent(elasticsearchTemplate -> elasticsearchTemplate.save(object));
+    }
+
+    @Bean
+    private ObjectMapper objectMapper() {
+        var objectMapper = new ObjectMapper();
+        objectMapper.registerModule(new JavaTimeModule());
+        return objectMapper;
     }
 
 }
