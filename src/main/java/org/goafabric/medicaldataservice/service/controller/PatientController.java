@@ -32,10 +32,9 @@ public class PatientController {
     }
 
 
-    @PostMapping("/create-patients")
-    public void createPatients() {
-        logic.save(new Patient("Homer", "Simpson", "male", LocalDate.of(1978, 5, 12)));
-
+    @GetMapping("/create-patient")
+    public void createPatient() {
+        logic.save(new Patient("Homer", "Simpson " + System.currentTimeMillis(), "male", LocalDate.of(1978, 5, 12)));
     }
 
 }
