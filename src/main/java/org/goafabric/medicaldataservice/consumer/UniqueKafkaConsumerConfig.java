@@ -14,7 +14,7 @@ import java.util.Map;
 import java.util.UUID;
 
 @Configuration
-public class CustomKafkaConsumerConfig {
+public class UniqueKafkaConsumerConfig {
     @Value("${spring.kafka.bootstrap-servers}") String bootstrapServers;
 
     @Bean
