@@ -23,6 +23,5 @@
 - Often crashes Intellij, especially when opening new projects
 - Declined faulty proposal changes, stop added the changes again and again and again
 
-
 # Speed
 - very very slow compared to online chatgpt (even if just one file is part of the changed)
