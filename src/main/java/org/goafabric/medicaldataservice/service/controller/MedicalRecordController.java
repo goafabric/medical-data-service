@@ -26,8 +26,8 @@ public class MedicalRecordController {
     }
 
     @PostMapping
-    public MedicalRecord save(@RequestBody MedicalRecord MedicalRecord) {
-        return null;
+    public MedicalRecord save(@RequestBody MedicalRecord medicalRecord) {
+        return logic.save(medicalRecord);
     }
 
 }

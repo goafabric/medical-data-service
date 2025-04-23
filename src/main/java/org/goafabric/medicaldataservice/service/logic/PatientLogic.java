@@ -33,9 +33,9 @@ public class PatientLogic {
     }
 
 
-
     public Patient save(@RequestBody Patient patient) {
         return mapper.map(
                 repository.save(mapper.map(patient)));
     }
+
 }

@@ -25,7 +25,7 @@ public class DemoDataImporter implements CommandLineRunner {
 
 
     @Override
-    public void run(String... args) throws Exception {
+    public void run(String... args) {
         var patients = createPatients().stream()
                 .map(patientLogic::save)
                 .toList();

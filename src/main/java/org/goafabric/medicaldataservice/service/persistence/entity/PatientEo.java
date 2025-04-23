@@ -30,7 +30,7 @@ public class PatientEo implements PatientAware {
     @Version //optimistic locking
     private Long version;
 
-    private PatientEo() {}
+    PatientEo() {}
 
     public PatientEo(String id, String givenName, String familyName, String gender, LocalDate birthDate, Long version) {
         this.id = id;

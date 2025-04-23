@@ -4,6 +4,7 @@ import org.goafabric.medicaldataservice.service.controller.dto.Patient;
 import org.goafabric.medicaldataservice.service.logic.PatientLogic;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -27,7 +28,14 @@ public class PatientController {
 
     @PostMapping
     public Patient save(@RequestBody Patient patient) {
-        return null;
+        return logic.save(patient);
+    }
+
+
+    @PostMapping("/create-patients")
+    public void createPatients() {
+        logic.save(new Patient("Homer", "Simpson", "male", LocalDate.of(1978, 5, 12)));
+
     }
 
 }
