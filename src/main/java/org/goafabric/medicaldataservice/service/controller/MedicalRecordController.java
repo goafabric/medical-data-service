@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/MedicalRecords")
+@RequestMapping("/medical-records")
 public class MedicalRecordController {
     private final MedicalRecordLogic logic;
 
@@ -29,5 +29,6 @@ public class MedicalRecordController {
     public MedicalRecord save(@RequestBody MedicalRecord medicalRecord) {
         return logic.save(medicalRecord);
     }
+
 
 }

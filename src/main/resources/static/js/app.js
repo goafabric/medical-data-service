@@ -23,11 +23,11 @@ function disconnectSocket() {
 }
 
 function createPatient() {
-    stompClient.send("/patients/create-patient", {}, "");
+    stompClient.send("/messages/create-patient", {}, "");
 }
 
-function updatePatient() {
-    stompClient.send("/patients/update-patient", {}, "");
+function createObservation() {
+    stompClient.send("/messages/create-observation", {}, "");
 }
 
 
