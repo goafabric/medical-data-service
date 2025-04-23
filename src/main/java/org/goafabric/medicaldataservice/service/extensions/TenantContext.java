@@ -1,7 +1,10 @@
 package org.goafabric.medicaldataservice.service.extensions;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.opentelemetry.api.trace.Span;
+import io.opentelemetry.context.Context;
 import jakarta.servlet.http.HttpServletRequest;
+import org.slf4j.MDC;
 
 import java.io.IOException;
 import java.util.Base64;
@@ -69,5 +72,11 @@ public class TenantContext {
         } catch (IOException e) {
             throw new IllegalStateException(e);
         }
+    }
+
+    public static void withTenantInfos(Runnable runnable) {
+        Span.fromContext(Context.current()).setAttribute("tenant.id", TenantContext.getTenantId());
+        MDC.put("tenantId", TenantContext.getTenantId());
+        try { runnable.run(); } finally { MDC.remove("tenantId"); }
     }
 }
