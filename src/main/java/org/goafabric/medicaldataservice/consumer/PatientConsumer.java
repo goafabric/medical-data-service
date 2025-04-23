@@ -16,6 +16,8 @@ import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 
+import static org.goafabric.medicaldataservice.service.extensions.TenantContext.withTenantInfos;
+
 @Component
 public class PatientConsumer {
     private final Logger log = LoggerFactory.getLogger(this.getClass());
@@ -30,8 +32,10 @@ public class PatientConsumer {
 
     @KafkaListener(groupId = CONSUMER_NAME, topics = {"patient"}) //only topics listed here will be autocreated, for production TOPICS should be created via Terraform
     public void processKafka(EventData eventData) {
-        //withTenantInfos(() -> process(topic, eventData));
+        withTenantInfos(() -> process(eventData));
+    }
 
+    private void process(EventData eventData) {
         if ("patient".equals(eventData.type())) {
             var patient = getPayLoad(eventData, Patient.class);
             log.info("Received message from type patient {}", patient.name().getFirst().family());
@@ -49,7 +53,6 @@ public class PatientConsumer {
             log.info("Received message from type observation {}", observation.coding().code());
             store(observation);
         }
-
     }
 
     private <T> T getPayLoad(EventData eventData, Class<T> clazz) {
