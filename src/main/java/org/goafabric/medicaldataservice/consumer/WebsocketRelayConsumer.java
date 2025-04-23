@@ -26,7 +26,7 @@ public class WebsocketRelayConsumer {
     @KafkaListener(groupId = CONSUMER_NAME, topics = {"patient"})
     public void listen(@Header(KafkaHeaders.RECEIVED_TOPIC) String topic, EventData eventData) {
         log.info("inside relay consumer");
-        msgTemplate.convertAndSend("/public", new MySocketMessage(eventData.type() + " " + eventData.operation() + " for Tenant " + TenantContext.getTenantId()));
+        msgTemplate.convertAndSend("/tenant/" + TenantContext.getTenantId(), new MySocketMessage(eventData.type() + " " + eventData.operation() + " for Tenant " + TenantContext.getTenantId()));
     }
 
 }
