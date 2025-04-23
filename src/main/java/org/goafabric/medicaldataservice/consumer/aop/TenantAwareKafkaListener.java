@@ -12,4 +12,6 @@ import java.lang.annotation.Target;
 public @interface TenantAwareKafkaListener {
     String[] topics();
     String groupId() default "";
+    String containerFactory() default "";
+
 }

@@ -1,12 +1,10 @@
 package org.goafabric.medicaldataservice.consumer;
 
+import org.goafabric.medicaldataservice.consumer.aop.TenantAwareKafkaListener;
 import org.goafabric.medicaldataservice.service.controller.dto.MySocketMessage;
 import org.goafabric.medicaldataservice.service.extensions.TenantContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.kafka.annotation.KafkaListener;
-import org.springframework.kafka.support.KafkaHeaders;
-import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Component;
 
@@ -22,9 +20,8 @@ public class WebsocketRelayConsumer {
         this.msgTemplate = msgTemplate;
     }
 
-
-    @KafkaListener(topics = {"patient"}, containerFactory = "latestKafkaListenerContainerFactory")
-    public void listen(@Header(KafkaHeaders.RECEIVED_TOPIC) String topic, EventData eventData) {
+    @TenantAwareKafkaListener(topics = {"patient"}, containerFactory = "latestKafkaListenerContainerFactory")
+    public void process(EventData eventData) {
         log.info("inside relay consumer");
         msgTemplate.convertAndSend("/tenant/" + TenantContext.getTenantId(), new MySocketMessage(eventData.type() + " " + eventData.operation() + " for Tenant " + TenantContext.getTenantId()));
     }

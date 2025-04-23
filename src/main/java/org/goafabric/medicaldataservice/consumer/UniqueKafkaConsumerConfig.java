@@ -15,17 +15,16 @@ import java.util.UUID;
 
 @Configuration
 public class UniqueKafkaConsumerConfig {
-    @Value("${spring.kafka.bootstrap-servers}") String bootstrapServers;
 
     @Bean
-    public ConcurrentKafkaListenerContainerFactory<String, String> latestKafkaListenerContainerFactory() {
+    public ConcurrentKafkaListenerContainerFactory<String, String> latestKafkaListenerContainerFactory(@Value("${spring.kafka.bootstrap-servers}") String bootstrapServers) {
         ConcurrentKafkaListenerContainerFactory<String, String> factory = new ConcurrentKafkaListenerContainerFactory<>();
-        factory.setConsumerFactory(new DefaultKafkaConsumerFactory<>(latestConsumerConfigs()));
+        factory.setConsumerFactory(new DefaultKafkaConsumerFactory<>(latestConsumerConfigs(bootstrapServers)));
         return factory;
     }
 
     @Bean
-    public Map<String, Object> latestConsumerConfigs() {
+    public Map<String, Object> latestConsumerConfigs(String bootstrapServers) {
         Map<String, Object> props = new HashMap<>();
         props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
         props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
