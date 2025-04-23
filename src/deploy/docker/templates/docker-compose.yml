@@ -1,0 +1,151 @@
+services:
+  application:
+    container_name: ${_Values_root_name}-application
+    image:  ${_Values_image_repository}${_Values_image_native}:${_Values_image_tag}
+    restart: 'no'
+    ports:
+      - "${_Values_service_port}:${_Values_service_port}"
+    entrypoint: ${_Values_resources_entrypoint}
+
+    healthcheck:
+      test: "curl -f http://localhost:${_Values_service_port}/actuator/health || exit 1"
+      disable: ${_Values_health_check_disabled} #disabled for native images because of no curl
+      interval: 10s
+      timeout: 10s
+      retries: 5
+
+    volumes:
+      - tmp:/tmp
+      - applogs:/usr/share/logs
+    networks:
+      - ${_Values_root_name}-net
+    environment:
+      #application
+      TZ: Europe/Berlin
+      server.port: "${_Values_service_port}"
+      server.tomcat.threads.max: "20"
+      server.forward-headers-strategy: FRAMEWORK
+
+      #security
+      security.authentication.enabled: "false"
+
+      #monitoring
+      management.endpoint.health.show-details: always
+      management.endpoints.web.exposure.include: "health,heapdump,circuitbreakers,prometheus"
+
+      #tracing
+      spring.application.name: "event-dispatcher"
+      management.tracing.sampling.probability: "1.0"
+      logging.level.io.opentelemetry.exporter: "OFF"
+      management.otlp.tracing.endpoint: "http://host.docker.internal:4318/v1/traces"
+
+      #broker
+      spring.kafka.bootstrap-servers: kafka:9092
+
+      #profile
+      spring.profiles.active: "${_Values_profile}"
+
+      #log levels
+      logging.level.root: "WARN"
+      logging.level.org.goafabric: "INFO"
+      logging.level.org.springframework: "INFO"
+
+  application-2:
+    container_name: ${_Values_root_name}-application-2
+    image:  ${_Values_image_repository}${_Values_image_native}:${_Values_image_tag}
+    restart: 'no'
+    ports:
+      - "50501:${_Values_service_port}"
+    entrypoint: ${_Values_resources_entrypoint}
+
+    healthcheck:
+      test: "curl -f http://localhost:${_Values_service_port}/actuator/health || exit 1"
+      disable: ${_Values_health_check_disabled} #disabled for native images because of no curl
+      interval: 10s
+      timeout: 10s
+      retries: 5
+
+    volumes:
+      - tmp:/tmp
+      - applogs:/usr/share/logs
+    networks:
+      - ${_Values_root_name}-net
+    environment:
+      #application
+      TZ: Europe/Berlin
+      server.port: "${_Values_service_port}"
+      server.tomcat.threads.max: "20"
+      server.forward-headers-strategy: FRAMEWORK
+
+      #security
+      security.authentication.enabled: "false"
+
+      #monitoring
+      management.endpoint.health.show-details: always
+      management.endpoints.web.exposure.include: "health,heapdump,circuitbreakers,prometheus"
+
+      #tracing
+      spring.application.name: "event-dispatcher"
+      management.tracing.sampling.probability: "1.0"
+      logging.level.io.opentelemetry.exporter: "OFF"
+      management.otlp.tracing.endpoint: "http://host.docker.internal:4318/v1/traces"
+
+      #broker
+      spring.kafka.bootstrap-servers: kafka:9092
+
+      #profile
+      spring.profiles.active: "${_Values_profile}"
+
+      #log levels
+      logging.level.root: "WARN"
+      logging.level.org.goafabric: "INFO"
+      logging.level.org.springframework: "INFO"
+
+  kafka:
+    profiles:
+      - kafka
+    image: bitnami/kafka:3.9.0
+    container_name: kafka
+    ports:
+      - "9092:9092"
+    environment:
+      KAFKA_BROKER_ID: "1"
+      KAFKA_CFG_NODE_ID: "1"
+      KAFKA_KRAFT_CLUSTER_ID: "sAR7yYSCT9qIzBsEXUa8oA"
+      KAFKA_CFG_CONTROLLER_QUORUM_VOTERS: "1@kafka:9093"
+
+      KAFKA_CFG_PROCESS_ROLES: "broker,controller"
+      KAFKA_CFG_CONTROLLER_LISTENER_NAMES: "CONTROLLER"
+      KAFKA_CFG_LISTENERS: "PLAINTEXT://:9092,CONTROLLER://:9093"
+      KAFKA_CFG_ADVERTISED_LISTENERS: "PLAINTEXT://kafka:9092"
+
+      KAFKA_CFG_NUM_PARTITIONS: "10" # number of partitions
+
+      #KAFKA_HEAP_OPTS: "-Xmx256m"
+    networks:
+      - ${_Values_root_name}-net
+
+  nginx:
+    container_name: ${_Values_root_name}-nginx
+    image: nginx:1.22.1
+    restart: 'no'
+    ports:
+      - 8080:80
+#      - 444:443
+    networks:
+      - ${_Values_root_name}-net
+    volumes:
+      - ./nginx/nginx${_Values_nginx_oidc}.conf:/etc/nginx/nginx.conf
+      - ./nginx/ssl:/etc/ssl/
+    depends_on:
+      application:
+        condition: service_started
+
+volumes:
+    tmp:
+    applogs:
+    rabbitdata:
+
+networks:
+  medical-data-service-net:
+    driver: bridge

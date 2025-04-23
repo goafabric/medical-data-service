@@ -1,0 +1,11 @@
+_Values_root_name="medical-data-service"
+
+_Values_image_repository=goafabric/medical-data-service
+
+_Values_service_port=50500
+_Values_resources_entrypoint="java -Xms128M -Xmx128M -cp /app/resources:/app/classes:/app/libs/* org.goafabric.medicaldataservice.Application"
+_Values_resources_entrypoint_native="/workspace/org.goafabric.medicaldataservice.Application -Xmx32m"
+
+_Values_health_check_disabled=false
+
+_Values_profile=kafka #nats
