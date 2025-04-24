@@ -2,7 +2,6 @@ package org.goafabric.medicaldataservice.consumer;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import org.goafabric.medicaldataservice.consumer.aop.TenantAwareKafkaListener;
 import org.goafabric.medicaldataservice.service.fhir.Condition;
 import org.goafabric.medicaldataservice.service.fhir.Observation;
 import org.goafabric.medicaldataservice.service.fhir.Patient;
@@ -12,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.elasticsearch.client.elc.ElasticsearchTemplate;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
@@ -30,7 +30,7 @@ public class PatientConsumer {
         this.elasticsearchTemplate = elasticsearchTemplate;
     }
 
-    @TenantAwareKafkaListener(groupId = CONSUMER_NAME, topics = {"patient"}) //only topics listed here will be autocreated, for production TOPICS should be created via Terraform
+    @KafkaListener(groupId = CONSUMER_NAME, topics = {"patient"}) //only topics listed here will be autocreated, for production TOPICS should be created via Terraform
     public void processKafka(EventData eventData) {
         if ("patient".equals(eventData.type())) {
             var patient = getPayLoad(eventData, Patient.class);

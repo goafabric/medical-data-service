@@ -9,6 +9,7 @@ import org.goafabric.medicaldataservice.service.extensions.TenantContext;
 import org.slf4j.MDC;
 import org.springframework.aot.hint.MemberCategory;
 import org.springframework.aot.hint.annotation.RegisterReflection;
+import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 
 @Aspect
@@ -16,8 +17,8 @@ import org.springframework.stereotype.Component;
 @RegisterReflection(classes = TenantAspect.class, memberCategories = MemberCategory.INVOKE_DECLARED_METHODS)
 public class TenantAspect {
 
-    @Around("@annotation(tenantAwareKafkaListener)")
-    public Object resolveTenantInfo(ProceedingJoinPoint joinPoint, TenantAwareKafkaListener tenantAwareKafkaListener) throws Throwable {
+    @Around("@annotation(kafkaListener)")
+    public Object resolveTenantInfo(ProceedingJoinPoint joinPoint, KafkaListener kafkaListener) throws Throwable {
         Span.fromContext(Context.current()).setAttribute("tenant.id", TenantContext.getTenantId());
         MDC.put("tenantId", TenantContext.getTenantId());
         Object result = joinPoint.proceed();
