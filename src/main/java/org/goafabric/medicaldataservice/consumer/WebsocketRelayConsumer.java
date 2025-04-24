@@ -12,8 +12,6 @@ import org.springframework.stereotype.Component;
 public class WebsocketRelayConsumer {
     private final Logger log = LoggerFactory.getLogger(this.getClass());
 
-    private static final String CONSUMER_NAME = "WebsocketRelayConsumer";
-
     private final SimpMessagingTemplate msgTemplate;
 
     public WebsocketRelayConsumer(SimpMessagingTemplate msgTemplate) {
