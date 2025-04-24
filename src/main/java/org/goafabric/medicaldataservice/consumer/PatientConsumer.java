@@ -9,7 +9,6 @@ import org.goafabric.medicaldataservice.service.fhir.Patient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.data.elasticsearch.client.elc.ElasticsearchTemplate;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Component;
@@ -22,11 +21,16 @@ public class PatientConsumer {
 
     private static final String CONSUMER_NAME = "PatientConsumer";
 
-    @Autowired(required = false)
+    private final ObjectMapper objectMapper;
     private MongoTemplate mongoTemplate;
-
-    @Autowired(required = false)
     private ElasticsearchTemplate elasticsearchTemplate;
+
+    public PatientConsumer(ObjectMapper objectMapper, @Autowired(required = false) MongoTemplate mongoTemplate, @Autowired(required = false) ElasticsearchTemplate elasticsearchTemplate) {
+        this.objectMapper = new ObjectMapper();
+        objectMapper.registerModule(new JavaTimeModule());
+        this.mongoTemplate = mongoTemplate;
+        this.elasticsearchTemplate = elasticsearchTemplate;
+    }
 
     @TenantAwareKafkaListener(groupId = CONSUMER_NAME, topics = {"patient"}) //only topics listed here will be autocreated, for production TOPICS should be created via Terraform
     public void processKafka(EventData eventData) {
@@ -50,19 +54,12 @@ public class PatientConsumer {
     }
 
     private <T> T getPayLoad(EventData eventData, Class<T> clazz) {
-        return objectMapper().convertValue(eventData.payload(), clazz);
+        return objectMapper.convertValue(eventData.payload(), clazz);
     }
 
     private void store(Object object) {
         Optional.ofNullable(mongoTemplate).ifPresent(mongoTemplate -> mongoTemplate.save(object));
         Optional.ofNullable(elasticsearchTemplate).ifPresent(elasticsearchTemplate -> elasticsearchTemplate.save(object));
-    }
-
-    @Bean
-    private ObjectMapper objectMapper() {
-        var objectMapper = new ObjectMapper();
-        objectMapper.registerModule(new JavaTimeModule());
-        return objectMapper;
     }
 
 }

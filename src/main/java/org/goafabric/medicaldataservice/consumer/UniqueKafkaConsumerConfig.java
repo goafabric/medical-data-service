@@ -18,7 +18,7 @@ public class UniqueKafkaConsumerConfig {
 
     @Bean
     public ConcurrentKafkaListenerContainerFactory<String, String> latestKafkaListenerContainerFactory(@Value("${spring.kafka.bootstrap-servers}") String bootstrapServers) {
-        ConcurrentKafkaListenerContainerFactory<String, String> factory = new ConcurrentKafkaListenerContainerFactory<>();
+        var factory = new ConcurrentKafkaListenerContainerFactory<String, String>();
         factory.setConsumerFactory(new DefaultKafkaConsumerFactory<>(latestConsumerConfigs(bootstrapServers)));
         return factory;
     }
