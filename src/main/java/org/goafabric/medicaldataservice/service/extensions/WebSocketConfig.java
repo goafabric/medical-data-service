@@ -37,7 +37,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
         registration.interceptors(new TenantAuthorizationInterceptor());
     }
 
-    //store Http Headers from HTTP Request inside session (supplied by lua) to be used for Websocket later => yuck
+    //store Http Headers from HTTP Request (via lua) inside session,  to be used for Websocket later => yuck ... hope this works with replicasets
     static class CustomHandshakeInterceptor implements HandshakeInterceptor {
 
         @Override
@@ -50,6 +50,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
         public void afterHandshake(ServerHttpRequest request, ServerHttpResponse response, WebSocketHandler wsHandler, Exception exception) {}
     }
 
+    //checks tenant authorization and also denies stomp send
     static class TenantAuthorizationInterceptor implements ChannelInterceptor {
         private final Logger log = LoggerFactory.getLogger(this.getClass());
 
