@@ -4,6 +4,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.opentelemetry.api.trace.Span;
 import io.opentelemetry.context.Context;
 import jakarta.servlet.http.HttpServletRequest;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
 
 import java.io.IOException;
@@ -11,7 +13,10 @@ import java.util.Base64;
 import java.util.Map;
 
 public class TenantContext {
+    private static final Logger log = LoggerFactory.getLogger(TenantContext.class);
+
     public static void setContext(Map<String, String> tenantHeaderMap) {
+
         setContext(tenantHeaderMap.get("X-TenantId"), tenantHeaderMap.get("X-OrganizationId"),
                 tenantHeaderMap.get("X-Auth-Request-Preferred-Username"), tenantHeaderMap.get("X-UserInfo"));
     }
@@ -26,6 +31,8 @@ public class TenantContext {
             ThreadLocal.withInitial(() -> new TenantContextRecord("0", "0", "anonymous"));
 
     public static void setContext(HttpServletRequest request) {
+        log.info("tenantcontext tenantid: " + request.getHeader("X-TenantId"));
+
         setContext(request.getHeader("X-TenantId"), request.getHeader("X-OrganizationId"),
                 request.getHeader("X-Auth-Request-Preferred-Username"), request.getHeader("X-UserInfo"));
     }

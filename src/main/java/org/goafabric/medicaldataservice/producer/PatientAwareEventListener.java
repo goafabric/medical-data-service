@@ -42,6 +42,7 @@ public class PatientAwareEventListener implements ApplicationContextAware {
     }
 
     public void produce(PatientAware patientAware, DbOperation operation) {
+        log.info("producer tenant is: {}" , TenantContext.getTenantId());
         var payload = context.getBean(SimpleFhirMapper.class).map(patientAware);
         var topic = payload.getClass().getSimpleName().toLowerCase();
         context.getBean(EventProducer.class).produce("patient", patientAware.getPatientId(),
