@@ -8,11 +8,8 @@
 
 # Fail
 - Kafkalistener with Wildcard for all topics, Windsurf/Claude haluzinated, while chatgpt just said thats not possible
+- Generating setTenantContext similiar to HttpInterceptor
 
 # Bug
 - With Windsurf installed in Intellij, when writing code, the lines are constantly shifting up and down, this is like getting see sickness on a boat
 
-# mcp
-- postgresql://postgres:postgres@localhost:5432/postgres
-- schema has to be provided
-- when asking about persons its able to automatically query the related address table
