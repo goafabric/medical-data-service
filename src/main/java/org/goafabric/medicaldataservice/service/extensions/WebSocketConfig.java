@@ -44,14 +44,16 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
         @Override
         public Message<?> preSend(Message<?> message, MessageChannel channel) {
             var accessor = MessageHeaderAccessor.getAccessor(message, StompHeaderAccessor.class);
+            if ((accessor != null) && (StompCommand.SEND.equals(accessor.getCommand()))) {
+                throw new IllegalStateException("Sending via Websocket denied, due to multi tenancy limitations")
+            }
 
             if (accessor != null && accessor.getDestination() != null & StompCommand.SUBSCRIBE.equals(accessor.getCommand())) {
                 String tenantId = (String) accessor.getSessionAttributes().get("tenantId");
-                log.info("## subscribe to tenant: {}", tenantId);
 
                 if (accessor.getDestination().contains("/tenant/")) {
                     if (!accessor.getDestination().equals("/tenant/" + tenantId)) {
-                        log.error("Access to tenant denied: {}", accessor.getDestination());
+                        log.error("Access to tenant denied: {}", tenantId);
                         throw new IllegalStateException("Access to tenant denied");
                     }
                 }
