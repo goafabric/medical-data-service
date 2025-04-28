@@ -51,8 +51,8 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
                 if (accessor.getDestination().contains("/tenant/")) {
                     if (!accessor.getDestination().equals("/tenant/" + tenantId)) {
-                        log.error("Accesss to tenant denied: {}", accessor.getDestination());
-                        throw new IllegalStateException("Accesss to tenant denied");
+                        log.error("Access to tenant denied: {}", accessor.getDestination());
+                        throw new IllegalStateException("Access to tenant denied");
                     }
                 }
             }
