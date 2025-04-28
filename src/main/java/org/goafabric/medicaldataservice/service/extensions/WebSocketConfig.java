@@ -34,18 +34,30 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     @Override
     public void configureClientInboundChannel(ChannelRegistration registration) {
-        registration.interceptors(new SubscriptionInterceptor());
+        registration.interceptors(new TenantAuthorizationInterceptor());
     }
 
-    static class SubscriptionInterceptor implements ChannelInterceptor {
-        private final Logger log = LoggerFactory.getLogger(this.getClass());
+    //store Http Headers from HTTP Request inside session (supplied by lua) to be used for Websocket later => yuck
+    static class CustomHandshakeInterceptor implements HandshakeInterceptor {
 
+        @Override
+        public boolean beforeHandshake(ServerHttpRequest request, ServerHttpResponse response, WebSocketHandler wsHandler, Map<String, Object> attributes) throws Exception {
+            attributes.put("tenantId", request.getHeaders().getFirst("X-TenantId"));
+            return true;
+        }
+
+        @Override
+        public void afterHandshake(ServerHttpRequest request, ServerHttpResponse response, WebSocketHandler wsHandler, Exception exception) {}
+    }
+
+    static class TenantAuthorizationInterceptor implements ChannelInterceptor {
+        private final Logger log = LoggerFactory.getLogger(this.getClass());
 
         @Override
         public Message<?> preSend(Message<?> message, MessageChannel channel) {
             var accessor = MessageHeaderAccessor.getAccessor(message, StompHeaderAccessor.class);
             if ((accessor != null) && (StompCommand.SEND.equals(accessor.getCommand()))) {
-                throw new IllegalStateException("Sending via Websocket denied, due to multi tenancy limitations")
+                throw new IllegalStateException("Sending via Websocket denied, due to multi tenancy limitations");
             }
 
             if (accessor != null && accessor.getDestination() != null & StompCommand.SUBSCRIBE.equals(accessor.getCommand())) {
@@ -63,17 +75,5 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
         }
     }
 
-    static class CustomHandshakeInterceptor implements HandshakeInterceptor {
 
-        @Override
-        public boolean beforeHandshake(ServerHttpRequest request, ServerHttpResponse response, WebSocketHandler wsHandler, Map<String, Object> attributes) throws Exception {
-            attributes.put("tenantId", request.getHeaders().getFirst("X-TenantId"));
-            return true;
-        }
-
-        @Override
-        public void afterHandshake(ServerHttpRequest request, ServerHttpResponse response, WebSocketHandler wsHandler, Exception exception) {
-
-        }
-    }
 }
