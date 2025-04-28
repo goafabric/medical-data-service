@@ -34,6 +34,8 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
             var accessor = MessageHeaderAccessor.getAccessor(message, StompHeaderAccessor.class);
 
             if (accessor != null && accessor.getDestination() != null & StompCommand.SUBSCRIBE.equals(accessor.getCommand())) {
+                System.err.println("## subscribe tenantid: " + accessor.getNativeHeader("X-TenantId"));
+
                 if (accessor.getDestination().contains("/tenant/")) {
                     if (!accessor.getDestination().equals("/tenant/" + TenantContext.getTenantId())) {
                         System.err.println("Accesss to tenant denied");
