@@ -67,8 +67,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
         @Override
         public boolean beforeHandshake(ServerHttpRequest request, ServerHttpResponse response, WebSocketHandler wsHandler, Map<String, Object> attributes) throws Exception {
-            String tenantId = request.getHeaders().getFirst("X-TenantId");
-            attributes.put("tenantId", tenantId);
+            attributes.put("tenantId", request.getHeaders().getFirst("X-TenantId"));
             return true;
         }
 
