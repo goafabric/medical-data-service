@@ -1,4 +1,4 @@
-package org.goafabric.medicaldataservice.service.extensions;
+package org.goafabric.medicaldataservice.websocket;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

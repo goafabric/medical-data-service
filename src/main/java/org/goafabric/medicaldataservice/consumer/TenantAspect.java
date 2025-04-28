@@ -1,4 +1,4 @@
-package org.goafabric.medicaldataservice.consumer.aop;
+package org.goafabric.medicaldataservice.consumer;
 
 import io.opentelemetry.api.trace.Span;
 import io.opentelemetry.context.Context;

@@ -1,4 +1,4 @@
-package org.goafabric.medicaldataservice.consumer;
+package org.goafabric.medicaldataservice.websocket;
 
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
@@ -14,7 +14,7 @@ import java.util.Map;
 import java.util.UUID;
 
 @Configuration
-public class UniqueKafkaConsumerConfig {
+public class WebsocketRelayConsumerConfig {
 
     @Bean
     public ConcurrentKafkaListenerContainerFactory<String, String> latestKafkaListenerContainerFactory(@Value("${spring.kafka.bootstrap-servers}") String bootstrapServers) {

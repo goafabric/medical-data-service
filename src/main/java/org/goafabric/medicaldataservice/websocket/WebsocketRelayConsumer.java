@@ -1,5 +1,6 @@
-package org.goafabric.medicaldataservice.consumer;
+package org.goafabric.medicaldataservice.websocket;
 
+import org.goafabric.medicaldataservice.consumer.EventData;
 import org.goafabric.medicaldataservice.service.controller.dto.MySocketMessage;
 import org.goafabric.medicaldataservice.service.extensions.TenantContext;
 import org.slf4j.Logger;
