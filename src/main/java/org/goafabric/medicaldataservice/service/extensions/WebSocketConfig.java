@@ -24,7 +24,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     @Override
     public void configureClientInboundChannel(ChannelRegistration registration) {
-        registration.interceptors(new SubscriptionInterceptor());
+        //registration.interceptors(new SubscriptionInterceptor());
     }
 
     static class SubscriptionInterceptor implements ChannelInterceptor {

@@ -7,7 +7,7 @@ function connectSocket() {
         websocketPath = "/event/websocket";
     }
     var socket = new SockJS(websocketPath);    stompClient = Stomp.over(socket);
-    stompClient.connect({}, function (frame) {
+    stompClient.connect({'X-TenantId': '77'}, function (frame) {
         console.log('Connected: ' + frame);
         stompClient.subscribe('/tenant/0', function (socketMessage) {
             console.log("Got Socket Message : " + JSON.parse(socketMessage.body).message);
