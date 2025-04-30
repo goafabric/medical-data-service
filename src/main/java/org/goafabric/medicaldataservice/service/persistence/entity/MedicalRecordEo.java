@@ -31,7 +31,7 @@ public class MedicalRecordEo implements PatientAware {
     @Version //optimistic locking
     private Long version;
 
-    private MedicalRecordEo() {}
+    MedicalRecordEo() {}
     public MedicalRecordEo(String id, String encounterId, String patientId, String type, String display, String code, String specialization, Long version) {
         this.id = id;
         this.encounterId = encounterId;
