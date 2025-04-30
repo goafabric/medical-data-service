@@ -1,0 +1,44 @@
+# no-responseentity-in-controller
+
+- Disallow use of ResponseEntity in Spring Web controllers.
+- Encourage returning real objects (e.g., DTOs, records, domain models).
+
+
+# enforce declarative restclient
+
+- Always use the Declarative REST Client from Spring Boot in both main and test sources.
+- This means defining interfaces annotated with @RestClient and method mappings.
+- Disallow usage of RestTemplate, TestRestTemplate, WebClient, OpenFeign, or imperative RestClient usage.
+- you can find examples for the declarative interface, as well es a fitting configuration class below, they should be created as separate classes outside the test class
+
+# example for declarative rest client
+@HttpExchange(value = "/persons", contentType = MediaType.APPLICATION_JSON_VALUE)
+public interface PersonControllerRemote {
+
+    @GetExchange("{id}")
+    Person getById(@PathVariable("id") String id);
+}
+
+# example for declarative rest client configuration
+@Configuration
+@Lazy
+public class PersonControllerRemoteConfiguration {
+
+    @Bean
+    public PersonControllerRemote personControllerRemote(RestClient.Builder builder,
+                                                         @LocalServerPort String port, @Value("${adapter.timeout}") Long timeout) {
+        return createAdapter(PersonControllerRemote.class, builder, "http://localhost:" + port, timeout);
+    }
+
+    public static <A> A createAdapter(Class<A> adapterType, RestClient.Builder builder, String url, Long timeout) {
+        var requestFactory = new SimpleClientHttpRequestFactory();
+        requestFactory.setConnectTimeout(timeout.intValue());
+        requestFactory.setReadTimeout(timeout.intValue());
+        builder.baseUrl(url).requestFactory(requestFactory);
+
+        return HttpServiceProxyFactory.builderFor(org.springframework.web.client.support.RestClientAdapter.create(builder.build())).build()
+                .createClient(adapterType);
+    }
+
+}
+
