@@ -9,6 +9,7 @@
 # Fail
 - Kafkalistener with Wildcard for all topics, Windsurf/Claude haluzinated, while chatgpt just said thats not possible
 - Generating setTenantContext similiar to HttpInterceptor
+- Even with a precices windsurf.rules file, with examples, it failed to create a rest client integration test, when asking to fix, it gave up and started mocking things
 
 # Bug
 - With Windsurf installed in Intellij, when writing code, the lines are constantly shifting up and down, this is like getting see sickness on a boat
