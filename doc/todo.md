@@ -6,4 +6,6 @@ Integration Tests
 # rules
 - Circuitbreaker
 - Kotlin Projects
+- rest guidelines
+- possible other guidelines
 
