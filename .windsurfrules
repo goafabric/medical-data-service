@@ -2,11 +2,17 @@
 
 ## use latest gradle stable version for new projects
 - when setting up a new project always use the latest gradle stable version, looked up from the internet
+- for building with gradle, always use the gradlew wrapper
 - do not use maven
 
 ## use latest spring boot stable version
 - when setting up a new project, always use the latest spring boot stable version, looked up from the internet
 - also use the latest stable and fitting "io.spring.dependency-management" version, looked up from the internet
+- for application properties always use application.yml with yaml
+- Application classes should just be called "Application" without any prefix or suffix
+
+## use java 21
+- when setting up java versions / compatibility use java 21
 
 
 # layers
@@ -15,12 +21,14 @@
 - every project should follow these layers: controller, logic, persistence, adapter
 - these layers should be put in a java package equal to the layer name
 - adapter will represent the rest client, controller will represent the controller layer, the logic layer will represent the business logic, the persistence layer will represent the persistence layer
+- adapter package is optional, only if an external system is connected via rest
 
 ## controller layer
 - dtos should reside in a subpackage "dto" inside the controller package
 - dtos should be immutable java records not java classes
 - they should not be suffixed with "DTO" just the plain name (e.g. Person for a Person)
 - controller return values should never be wrapped inside ResponseEntity, they should just return the simple DTO
+- usage of "@ResponseStatus" is als forbidden
 
 # persistence layer
 - the persistence layer should be built with spring data jpa
@@ -37,9 +45,12 @@
 - classes inside the logic layer should be annotated with springs "org.springframework.transaction.annotation.Transactional" at the class level
 - the logic layer will also be a bridge the persistence layer and the controller layer
 - it will call the repository classes and map the results from the entities to dtos
+
+## mapping
 - for mapping the latest stable mapstruct version is used
 - mappers reside in a subpackage "mapper" inside the logic package
 - thy are just an interface annotated with @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
+- all methods inside the mapper should should just be called "map" as long as overloading of types allows it
 
 
 # forbidden usages
