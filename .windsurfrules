@@ -1,17 +1,69 @@
-# no-responseentity-in-controller
+# setting up new projects
 
-- Disallow use of ResponseEntity in Spring Web controllers.
-- Encourage returning real objects (e.g., DTOs, records, domain models).
+## use latest gradle stable version for new projects
+- when setting up a new project always use the latest gradle stable version, looked up from the internet
+- do not use maven
+
+## use latest spring boot stable version
+- when setting up a new project, always use the latest spring boot stable version, looked up from the internet
+- also use the latest stable and fitting "io.spring.dependency-management" version, looked up from the internet
 
 
-# enforce declarative restclient
+# layers
 
-- Always use the Declarative REST Client from Spring Boot in both main and test sources.
+## layer naming
+- every project should follow these layers: controller, logic, persistence, adapter
+- these layers should be put in a java package equal to the layer name
+- adapter will represent the rest client, controller will represent the controller layer, the logic layer will represent the business logic, the persistence layer will represent the persistence layer
+
+## controller layer
+- dtos should reside in a subpackage "dto" inside the controller package
+- dtos should be immutable java records not java classes
+- they should not be suffixed with "DTO" just the plain name (e.g. Person for a Person)
+- controller return values should never be wrapped inside ResponseEntity, they should just return the simple DTO
+
+# persistence layer
+- the persistence layer should be built with spring data jpa
+- with repository classes going to a subpackage "repository" inside the persistence package, suffixing the classes with "Repository"
+- with entity classes going to a subpackage "entity" inside the persistence package, suffixing the classes with "Eo"
+- entities should be immutable java classes, with a full args constructor, with getters, but no setters
+- they should of course be annotated with @Entity, @Table, @Id and @GeneratedValue
+- the id should be generated like "@GeneratedValue(strategy = GenerationType.UUID)"
+- entities should follow the structure of the dtos, so mostly a copy to decouple persistence from controller
+- entities should have an @Version field for optimistic locking
+- the version field will also be part of the dto
+
+## logic layer
+- classes inside the logic layer should be annotated with springs "org.springframework.transaction.annotation.Transactional" at the class level
+- the logic layer will also be a bridge the persistence layer and the controller layer
+- it will call the repository classes and map the results from the entities to dtos
+- for mapping the latest stable mapstruct version is used
+- mappers reside in a subpackage "mapper" inside the logic package
+- thy are just an interface annotated with @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
+
+
+# forbidden usages
+
+## usage of reflection is forbidden
+- usage of classes that will deal with reflection is forbidden
+- these can for example be the usage or imports on "Class.forName", "java.lang.reflect", "org.springframework.util.ReflectionUtils", "org.springframework.beans.BeanWrapperImpl", "akarta.validation.ConstraintValidator"
+
+## usage of specific libraries
+- usage of these libraries or imports on these is forbidden
+    - "com.google.common", "org.apache.commons", "dev.mccue.guava"
+
+
+
+# usage of declarative rest client
+
+## enforce declarative restclient
+
+- Always use the declarative rest client from Spring Boot in both main and test sources.
 - This means defining interfaces annotated with @RestClient and method mappings.
 - Disallow usage of RestTemplate, TestRestTemplate, WebClient, OpenFeign, or imperative RestClient usage.
-- you can find examples for the declarative interface, as well es a fitting configuration class below, they should be created as separate classes outside the test class
+- you can find examples for the declarative rest clientinterface, as well es a fitting configuration class below, they should be created as separate classes outside the test class
 
-# example for declarative rest client
+## example for declarative rest client
 @HttpExchange(value = "/persons", contentType = MediaType.APPLICATION_JSON_VALUE)
 public interface PersonControllerRemote {
 
