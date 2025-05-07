@@ -25,7 +25,7 @@
 
 ## controller layer
 - dtos should reside in a subpackage "dto" inside the controller package
-- dtos should be immutable java records not java classes
+- dtos should be immutable java records not java classes, for kotlin use data classes
 - they should not be suffixed with "DTO" just the plain name (e.g. Person for a Person)
 - controller return values should never be wrapped inside ResponseEntity, they should just return the simple DTO
 - usage of "@ResponseStatus" is als forbidden
@@ -64,7 +64,7 @@
 - this find method should have to query parameters for page and size, as the two last parameters
 - the parameters for finding, should be added via a special DTO *search added as first parameter with @ModelAttribute, this dto has to be created as a record inside the dto sub package
 - this controller method will call a method find(*search, page, size) in the logic layer
-- the logic layer find method will call a method from the repository "Page<> findAll(Example<> example, Pageable pageable)", for classes of JPARepository this method should already be there
+- the logic layer find method will call a method from the repository "Page<> findAll(Example<> example, Pageable pageable)", for classes of JPARepository this method does not need to be created
 - the logic layer method implementation as an example could look as simple as this: "return mapper.map(repository.findAll(Example.of(mapper.map(*search)), PageRequest.of(page,size)));"
 - for the logic layer method there have to be mappings to map the repository methods to the controller via the logic
 
