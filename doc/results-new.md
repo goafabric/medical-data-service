@@ -12,6 +12,8 @@
 - Even with a precices windsurf.rules file, with examples, it failed to create a rest client integration test, when asking to fix, it gave up and started mocking things
 - Failed miserable for creating simple tests for the project it created, due to simple constructor parameter errors
 
+- Integration of "humand code guidelines" via MCP, the guidelines are to unspecific in constrast to explicit .windsurfrules to produce reasonable results  
+
 # Bug
 - With Windsurf installed in Intellij, when writing code, the lines are constantly shifting up and down, this is li
 - Intellij plugin bugging out a lot with "a call to a tool failed" since latest updates
