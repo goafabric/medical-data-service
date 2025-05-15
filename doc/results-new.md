@@ -14,6 +14,7 @@
 - Failed miserable for creating simple tests for the project it created, due to simple constructor parameter errors
 
 - Integration of "human code guidelines" via MCP, the guidelines are to unspecific in constrast to explicit .windsurfrules to produce reasonable results  
+- Generation of Integration Tests, AI tried with Embedded Kafka => failed => replaced it with just mocks => failed again => told the user to fix it himself
 
 # Bug
 - With Windsurf installed in Intellij, when writing code, the lines are constantly shifting up and down, this is li
